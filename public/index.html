@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <style>
+    #upload-success {
+      opacity: 0;
+      transition: opacity .6s ease-out;
+    }
+
+    .active {
+      opacity: 1 !important;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-light bg-light mb-4">
+    <div class="container">
+      <h2>Log Uploader</h2>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <div id="upload-success" class="alert alert-success" role="alert">
+      アップロードしました。
+    </div>
+
+    <div class="jumbotron">
+      <div id="uploadForm">
+        <div class="form-group mb-4">
+          <label>チーム名</label>
+          <input type="text" class="form-control" id="teamName" />
+        </div>
+        <div class="form-group mb-4">
+          <label>マップ名</label>
+          <input type="text" class="form-control" id="mapName" />
+        </div>
+        <div class="mb-5">
+          <p>ログファイル</p>
+          <div class="custom-file">
+            <input type="file" id="file" name="file" class="custom-file-input" />
+            <!-- <output id="list"></output> -->
+            <label class="custom-file-label" for="customFile" id="logfilename">Choose file</label>
+          </div>
+        </div>
+      </div>
+      <button id="submit" class="btn btn-primary" value="SEND">SEND</button>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+
+  <script>
+    const host = 'logs.viewer.rrs.rcap2021.teamd.jp';
+    const port = '443';
+
+    const reader = new FileReader();
+
+    let logfile;
+    let isLoadedFile = false;
+
+    // Get file name and rewrite HTML
+    file.addEventListener('change', function (e) {
+      reader.readAsText(e.target.files[0]);
+      document.getElementById("logfilename").innerHTML = e.target.files[0].name;
+    });
+
+    // Load file
+    reader.onload = function (e) {
+      isLoadedFile = true;
+    }
+
+    // Send Data to Sever
+    submit.addEventListener('click', function () {
+      submitData();
+    });
+
+    async function submitData() {
+
+      if (!isLoadedFile) { return; }
+
+      const formData = new FormData();
+      formData.append('mapName', mapName.value);
+      formData.append('teamName', teamName.value);
+      formData.append('logfile', file.files[0]);
+
+      fetch('https://' + host + ':' + port + '/logs/', {
+        method: 'POST',
+        body: formData,
+      })
+        .then(response => {
+          response.json();
+        })
+        .then(result => {
+          console.log(result);
+          document.getElementById("upload-success").classList.add("active");
+          window.setTimeout(function () {
+            document.getElementById("upload-success").classList.remove("active");
+          }, 10000);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+[
+    {
+        "uri": "/provider/open",
+        "method": "POST",
+        "parameters": [
+            "host",
+            "port"
+        ]
+    },
+    {
+        "uri": "/server/interfaces",
+        "method": "GET",
+        "parameters": []
+    },
+    {
+        "uri": "/viewer/open",
+        "method": "GET",
+        "parameters": []
+    },
+    {
+        "uri": "/provider/close",
+        "method": "POST",
+        "parameters": [
+            "providerId"
+        ]
+    },
+    {
+        "uri": "/server/shutdown",
+        "method": "POST",
+        "parameters": []
+    },
+    {
+        "uri": "/provider/log/open",
+        "method": "POST",
+        "parameters": [
+            "path"
+        ]
+    },
+    {
+        "uri": "/viewer/disconnect",
+        "method": "POST",
+        "parameters": [
+            "viewerId"
+        ]
+    },
+    {
+        "uri": "/server/errors",
+        "method": "GET",
+        "parameters": [
+            "count"
+        ]
+    },
+    {
+        "uri": "/provider/list",
+        "method": "GET",
+        "parameters": []
+    },
+    {
+        "uri": "/viewer/list",
+        "method": "GET",
+        "parameters": []
+    },
+    {
+        "uri": "/viewer/record",
+        "method": "GET",
+        "parameters": [
+            "viewerId",
+            "time",
+            "count"
+        ]
+    },
+    {
+        "uri": "/viewer/connect",
+        "method": "POST",
+        "parameters": [
+            "viewerId",
+            "providerId"
+        ]
+    },
+    {
+        "uri": "/provider/log/path/add",
+        "method": "POST",
+        "parameters": [
+            "path"
+        ]
+    }
+]

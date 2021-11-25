@@ -1,0 +1,55 @@
+
+
+body {
+  height: 100%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+
+  background: grey;
+}
+
+#property_panel {
+  position: absolute;
+  right: 10px;
+  border: 1px solid black;
+
+  width: 14em;
+  overflow-x: scroll;
+  overflow-y: visible;
+}
+
+#property_panel .property {
+    float: left;
+
+    width: 7em;
+    border-collapse: collapse;
+}
+
+#property_panel .property tbody {
+    width: 100%;
+}
+
+#property_panel .property tr {
+    border-bottom: 1px solid grey;
+}
+
+#property_panel .value {
+
+    border-collapse: collapse;
+
+    margin-left: 7em;
+}
+
+#property_panel .value tbody {
+    width: 100%;
+}
+
+#property_panel .value tr {
+    border-bottom: 1px solid grey;
+}
+
+

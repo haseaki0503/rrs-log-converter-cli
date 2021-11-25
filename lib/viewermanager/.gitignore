@@ -1,0 +1,9 @@
+
+.idea
+.exe
+.dll
+
+.idea/
+.idea/workspace.xml
+out/
+logs/

@@ -1,0 +1,94 @@
+@startuml
+
+
+abstract class Manager {
+    # server : ViewerServer
+    # sessions : Session[]
+    # providers : Provider[]
+
+    + {abstract} run() : void
+    + {abstract} getPreferredProvider(info : ConnectionInfo) : Provider
+    + {abstract} getProviders() : Provider[]
+    + {abstract} getSessions() : Session[]
+    + {abstract} getConnections() : ConnectionInfo[]
+}
+
+interface ViewerServer {
+    {abstract} accept() : ViewerEndPoint
+    {abstract} acceptedCount() : int
+    {abstract} close() : void
+    {abstract} isClosed() : bool
+
+    {abstract} getInformation() : ConnectionInfo
+    {abstract} getConnections() : ConnectionInfo[]
+}
+
+interface ViewerEndPoint {
+    {abstract} getRequest() : Request
+    {abstract} sendResult(result : Result) : void
+    {abstract} isReceived() : bool
+
+    {abstract} close() : void
+    {abstract} getConnectionInfo() : ConnectionInfo
+}
+
+interface MsgPacker {
+    {abstract} packResult(result : Result) : byte[]
+    {abstract} unpackRequest(received : byte[]) : Result
+}
+
+class Request {
+    + operation : int
+    + type : int
+    + command : int
+    + append : Object
+}
+
+class Result {
+    + operation : in t
+    + type : int
+    + command : int
+    + append : Object
+}
+
+interface Provider {
+    {abstract} getEntities : Entity[]
+    {abstract} getWorld : Entity[]
+    {abstract} getCommand : Action[]
+    {abstract} getMap : AreaInfo[]
+    {abstract} getConfig : String[String]
+}
+
+class Session{
+    # provider : Provider
+    # connection : ViewerEndPoint
+
+    + update() : void
+    + isTerminated() : bool
+    + refresh(provider : Provider) : bool
+}
+
+
+
+
+ViewerServer <.. ViewerEndPoint : Be Mangaed
+
+Session "1" *-le- "1" ViewerEndPoint
+Session "*" *-ri- "1" Provider : <<Async>>
+
+MsgPacker --> Request : unpack from\nReceived
+MsgPacker --> Result : pack to Byte[]
+ViewerEndPoint .l.|> MsgPacker : <<impl>> to\n pack/unpack messages
+
+Manager "1" *-l- "1" ViewerServer
+Manager "1" *-- "*" Session
+Manager "1" *-- "*" Provider
+
+note as NOTE1
+append is specified by status of
+ operation, type and command
+end note
+Request . NOTE1
+Result . NOTE1
+
+@enduml

@@ -1,0 +1,12 @@
+{
+	"name": "vlog",
+	"authors": [
+		"Kubota Keisuke"
+	],
+	"dependencies": {
+		"msgpack-d": ">1.0.0-beta.1"
+	},
+	"description": "Read ViewerLog(vlog) and Lookup it like File System",
+	"copyright": "Copyright © 2016, Kubota Keisuke",
+	"license": "MIT"
+}

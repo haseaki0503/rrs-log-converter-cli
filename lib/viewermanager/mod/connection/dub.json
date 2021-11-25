@@ -1,0 +1,12 @@
+{
+	"name": "mod",
+	"authors": [
+		"Kubota Keisuke"
+	],
+	"dependencies": {
+		"msgpack-d": ">1.0.0-beta.1"
+	},
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2016, Kubota Keisuke",
+	"license": "proprietary"
+}

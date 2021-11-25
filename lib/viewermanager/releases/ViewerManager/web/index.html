@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <title>Title</title>
+
+
+  <link rel="stylesheet" href="static/bootstrap.min.css" charset="utf-8">
+  <link rel="stylesheet" href="static/static.css" charset="utf-8">
+
+</head>
+
+<body>
+  <!-- MainFrame -->
+  <div class="alerts hidden" id="alert-holder">
+    <div id="alert-box" class="alert alert-danger alert-dismissible fade" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <span id="alert-error"></span>
+    </div>
+  </div>
+  <div class="container" style="height:90%">
+    <div class="row" style="height:100%">
+      <div class="col-sm-5 col-md-4" style="height:100%">
+        <!-- information list of viewer -->
+        <div class="card" style="top: 5px; height:100%">
+          <div id="viewer-header" class="card-header" style="height:auto">
+            Viewers
+          </div>
+          <div class="card-block" style="height: 85%">
+            <ul class="list-group list" id="viewer-list">
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-5 col-md-4" style="height: 100%">
+        <!-- information list of provider -->
+        <div class="card" style="top: 5px; height:100%">
+          <div id="provider-header" class="card-header" style="height:auto">
+            Providers
+            <a href="#" id="btn-provider-add" class="close" aria-label="btn-provider-add" data-toggle="popover">
+              <span aria-hidden="true">&#x2b;</span>
+            </a>
+          </div>
+          <div class="card-block" style="height: 85%">
+            <ul class="list-group list" id="provider-list">
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2 col-md-4" style="height: 100%">
+        <!-- information list of error -->
+        <div class="card" style="top: 5px; height: 100%">
+          <!-- tab header -->
+          <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+              <a id="tab-error" class="nav-link active" data-toggle="tab" href="#errorlist" role="tab">
+                  Errors
+                </a>
+            </li>
+            <li class="nav-item">
+              <a id="tab-log" class="nav-link" data-toggle="tab" href="#loglist" role="tab">
+                  LogList
+                </a>
+            </li>
+          </ul>
+
+          <!-- tab body -->
+          <div class="card-block" style="height: 95%">
+            <div class="tab-content" style="height: 100%; width: 100%">
+              <div class="tab-pane active list" style="overflow-x: hidden; overflow-y: scroll" id="errorlist" role="tabpanel">
+                <table class="table table-sm table-hover" id="errors">
+                </table>
+              </div>
+              <div class="tab-pane list" id="loglist" role="tabpanel">
+                <table class="table table-sm table-hover" id="logs">
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END OF BODY ROW -->
+  </div>
+  <!-- END OF BODY -->
+
+  <footer class="footer fixed-bottom">
+    <div class="container">
+      <div class="row" style="border-top: 1px solid;">
+        <div class="col-2">
+          <button type="button" id="btn-update" class="btn btn-secondary">&#x21bb;</button>
+
+          <button id="btn-request" class="btn btn-primary disabled" vcol-group="vtab" vcol-toggle="#controller">REQUEST</button>
+        </div>
+        <span style="border-right: 1px solid #c0c0c0; padding-left: 5px;"></span>
+
+        <div class="col">
+          <div class="input-group rounded" id="control" style="background-color: white; border: 1px solid rgba(0, 0, 0, 0.125);">
+            <!-- control label -->
+            <div id="control-label" class="vcollapse" vcol-group="control">
+              <button id="btn-back" class="btn btn-outline-primary" vcol-toggle="#controller">
+                    &#x25c0;
+              </button>
+              <button id="btn-label" class="form-control"></button>
+
+              <span style="padding-left: 5px;"></span>
+              <span style="border-left: 1px solid #c0c0c0; padding-left: 5px"></span>
+            </div>
+
+            <div id="controller" class="vcollapse show" vcol-group="control">
+              <button id="btn-connect" class="btn btn-outline-primary" ctrl="CONNECT" ctrl-target="#viewer-header #provider-header" vcol-toggle="#ctrl-viewer #ctrl-provider #control-label">
+                    CONNECT</button>
+              <button id="btn-disconnect" class="btn btn-outline-danger" ctrl="DISCONNECT" ctrl-target="#viewer-header" vcol-toggle="#ctrl-viewer #control-label">
+                    DISCONNECT</button>
+              <button id="btn-open" class="btn btn-outline-primary" ctrl="OPEN" ctrl-target="" vcol-toggle="#ctrl-open #control-label">
+                    OPEN</button>
+              <button id="btn-openlog" class="btn btn-outline-warning" ctrl="OPENLOG" ctrl-target="#tab-log" vcol-toggle="#ctrl-openlog #control-label">
+                    OPEN LOG</button>
+              <button id="btn-close" class="btn btn-outline-danger" ctrl="CLOSE" ctrl-target="#provider-header" vcol-toggle="#ctrl-provider #control-label">
+                    CLOSE</button>
+            </div>
+
+            <!-- Connect -->
+            <div id="ctrl-viewer" class="vcollapse" vcol-group="ctrl-input">
+              <div class="input-group">
+                <span class="input-group-btn">
+                      <button class="btn btn-secondary" type="button">&#x1F517;</button>
+                    </span>
+                <button id="viewer-item" type="text" class="form-control btlabel" style="min-width: 200px" placeholder="Viewer"></button>
+              </div>
+            </div>
+
+            <span style="padding-left: 5px;"></span>
+
+            <div id="ctrl-provider" class="vcollapse" vcol-group="ctrl-input">
+              <div class="input-group">
+                <span class="input-group-btn">
+                      <button class="btn btn-secandary" type="button">&#x1F517;</button>
+                    </span>
+                <button id="provider-item" type="text" class="form-control btlabel" style="min-width: 200px" placeholder="Viewer"></button>
+              </div>
+            </div>
+
+            <!-- Open -->
+            <div id="ctrl-open" class="vcollapse" vcol-group="ctrl-input">
+              <span style="padding-left: 5px;"></span>
+              <span class="input-group">
+                <span class="input-group-addon">HOST</span>
+                <input id="open-host" type="text" class="form-control btlabel" placeholder="127.0.0.1"></input>
+              </span>
+              <span class="input-group">
+                <button data-toggle="button" class="btn btn-secandary" vcol-toggle="#open-port-holder">:7000</button>
+                <div id="open-port-holder" class="vcollapse">
+                  <input id="open-port" type="text" class="form-control btlabel" placeholder="7000"></input>
+                </div>
+              </span>
+            </div>
+
+            <div id="ctrl-openlog" class="vcollapse" vcol-group="ctrl-input">
+              <span class="input-group-btn">
+                    <button class="btn btn-secandary" type="button">&#x1F517;</button>
+                  </span>
+              <button id="log-item" type="text" class="form-control btlabel" style="min-width: 200px" placeholder="Viewer"></button>
+            </div>
+
+            <!-- end -->
+          </div>
+        </div>
+      </div>
+      <!-- END OF ROW -->
+    </div>
+    <!-- END OF CONTAINER -->
+  </footer>
+
+  <script src="static/jquery-3.1.1.min.js" type="text/javascript"></script>
+  <script src="static/tether.min.js" type="text/javascript"></script>
+  <script src="static/bootstrap.min.js" type="text/javascript"></script>
+  <script src="static/vcol.js" type="text/javascript"></script>
+  <script src="static/main.js" type="text/javascript"></script>
+
+</body>
+
+</html>
